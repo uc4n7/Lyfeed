@@ -1,0 +1,64 @@
+========================================================================
+LyfeFeed Web Application - File Descriptions
+========================================================================
+
+--- CONFIGURATION & PUBLIC ENTRY ---
+config/database.php          - Stores database credentials, timezone, upload limits, and app settings.
+public/index.php             - The front controller / entry point that initializes sessions, security headers, and routes every request.
+public/favicon.ico           - Application favicon icon (browser tab icon).
+public/assets/css/style.css  - Custom stylesheet containing responsive layout, dark theme variables, and component styles.
+public/assets/js/app.js      - Client-side JavaScript handling AJAX likes/comments, dark mode, image previews, and form validation.
+public/assets/img/           - Application brand assets, including SVG/PNG favicon icons.
+sql/social_app.sql           - The MySQL database schema and sample starter data for users, posts, comments, and likes.
+
+
+--- CORE SYSTEM FILES (app/core/) ---
+app/core/Database.php        - Manages the singleton PDO database connection with prepared statements and timezone syncing.
+app/core/Controller.php      - The base controller handling view rendering, layout loading, login guards (requireLogin), and CSRF verification (requirePost).
+app/core/Router.php          - Parses URL routes (e.g. ?route=post/edit) and safely dispatches to whitelisted controllers and actions.
+app/core/helpers.php         - Global helper functions for XSS escaping (e()), input sanitizing (clean()), CSRF tokens, rate limiting, and image uploads.
+
+
+--- CONTROLLERS (app/controllers/) ---
+app/controllers/AuthController.php    - Handles user registration, login (with rate limiting), and logout.
+app/controllers/FeedController.php    - Loads and displays the main newsfeed timeline with pagination.
+app/controllers/PostController.php    - Handles creating, editing, updating, and deleting posts (with ownership authorization checks).
+app/controllers/CommentController.php - Handles adding, editing, updating, and deleting comments (with ownership checks and AJAX support).
+app/controllers/LikeController.php    - Handles liking and unliking posts via AJAX toggle.
+app/controllers/ProfileController.php - Handles viewing user profiles and updating profile details, avatars, and cover photos.
+app/controllers/SearchController.php  - Handles searching for users and posts by keywords.
+
+
+--- MODELS (app/models/) ---
+app/models/UserModel.php     - Database queries for user lookup, creation, profile updates, password rehashing, and user search.
+app/models/PostModel.php     - Database queries for fetching feeds, creating posts, searching posts, and owner-restricted updates/deletes.
+app/models/CommentModel.php  - Database queries for fetching post comments and owner-restricted comment editing/deleting.
+app/models/LikeModel.php     - Database queries for checking, counting, adding, and removing post likes.
+
+
+--- VIEWS / TEMPLATES (app/views/) ---
+
+[Layouts & Errors]
+app/views/layouts/header.php - The top navigation bar, brand logo, search bar, dark mode toggle, and user dropdown menu.
+app/views/layouts/footer.php - Mobile bottom navigation bar, image lightbox viewer modal, and script tags.
+app/views/errors/404.php     - The "Page Not Found" error page.
+
+[Authentication Views]
+app/views/auth/login.php     - The user login form.
+app/views/auth/register.php  - The user sign-up form with avatar upload and password validation.
+
+[Feed & Post Views]
+app/views/feed/index.php        - The main newsfeed page with post composer and user shortcuts sidebar.
+app/views/feed/post_edit.php    - The form for editing an existing post and replacing/removing its photo.
+app/views/feed/comment_edit.php - The form for editing an existing comment.
+
+[Profile & Search Views]
+app/views/profile/show.php   - The user profile page showing cover photo, avatar, bio, stats, and user's posts.
+app/views/profile/edit.php   - The profile edit form with banner drag-to-reposition and avatar upload.
+app/views/search/index.php   - The search results page displaying matched people or posts.
+
+[Partials (Reusable Components)]
+app/views/partials/post.php       - Reusable single post card component with like/comment buttons and comment drawer.
+app/views/partials/comment.php    - Reusable single comment component with edit/delete buttons for owners.
+app/views/partials/flash.php      - Reusable toast alert popup component for success/error flash messages.
+app/views/partials/pagination.php - Reusable page numbers navigation component.

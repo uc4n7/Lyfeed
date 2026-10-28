@@ -1,0 +1,6 @@
+# Block script execution inside the uploads folder (defence in depth)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^assets/uploads/.*\.(php|phtml|phar|php5|php7|html|htm)$ - [F,L]
+</IfModule>
+Options -Indexes
