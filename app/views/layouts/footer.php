@@ -45,8 +45,8 @@
                     <img id="modalImage" src="" alt="Full screen image" class="img-fluid" style="max-height: 100vh; max-width: 100vw; object-fit: contain;">
                 </div>
                 
-                <!-- Right: Post Details (White sidebar) -->
-                <div class="bg-white d-none d-lg-block border-start" style="width: 100%; max-width: 420px; height: 100vh; overflow-y: auto;" id="modalSidebar">
+                <!-- Right: Post Details (Sidebar) -->
+                <div class="modal-sidebar-panel d-none d-lg-block border-start" style="width: 100%; max-width: 420px; height: 100vh; overflow-y: auto;" id="modalSidebar">
                     <!-- The cloned post will be injected here -->
                 </div>
             </div>
