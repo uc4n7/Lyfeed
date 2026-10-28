@@ -842,7 +842,6 @@ a { text-decoration: none; }
 .feed-center-col {
     max-width: 660px;
     margin: 0 auto;
-    width: 100%;
 }
 
 .sidebar-card {
@@ -1464,9 +1463,6 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
 }
 [data-theme="dark"] .fb-composer-btn.text-success {
     color: #34d399 !important;
-}
-[data-theme="dark"] .fb-composer-btn.text-warning {
-    color: #fbbf24 !important;
 }
 
 /* Post Card Elements */

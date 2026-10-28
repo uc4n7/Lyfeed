@@ -1,7 +1,7 @@
 <div class="row g-4 justify-content-center fb-layout">
 
     <!-- Left column: Sleek Modern Navigation Sidebar -->
-    <aside class="col-lg-4 col-xl-3 d-none d-lg-block">
+    <aside class="col-lg-3 col-xl-3 d-none d-lg-block">
         <div class="side-sticky">
             <div class="sidebar-card">
                 <!-- Cover Banner -->
@@ -69,11 +69,11 @@
     </aside>
 
     <!-- Center column: Newsfeed (Centered & optimal width) -->
-    <section class="col-12 col-lg-8 col-xl-6 feed-center-col">
+    <section class="col-12 col-lg-6 col-xl-6 feed-center-col">
 
-        <!-- Discover / People (shown here on smaller screens where right sidebar hides) -->
+        <!-- Discover / People (shown on mobile where right sidebar hides) -->
         <?php if ($people): ?>
-            <div class="discover-minimal mb-3 d-xl-none" aria-label="Discover people">
+            <div class="discover-minimal mb-3 d-lg-none" aria-label="Discover people">
                 <div class="discover-minimal-track">
                     <?php foreach ($people as $person): ?>
                         <a href="<?= e(url('profile/show', ['id' => $person['id']])) ?>" class="discover-user">
@@ -112,7 +112,7 @@
 
                     <hr class="fb-divider my-2">
 
-                    <!-- Facebook 3-Action Buttons Row -->
+                    <!-- Facebook Action Buttons Row -->
                     <div class="d-flex align-items-center justify-content-between pt-1">
                         <div class="d-flex gap-2">
                             <label class="fb-composer-btn text-success" title="Add a photo or video">
@@ -121,10 +121,6 @@
                                 <input type="file" name="image" id="composerFileInput" class="d-none"
                                        accept="image/jpeg,image/png,image/gif,image/webp" data-preview="#postPreview">
                             </label>
-                            <button type="button" class="fb-composer-btn text-warning" id="fbFeelingBtn" title="Feeling/activity">
-                                <i class="bi bi-emoji-smile-fill fs-5"></i>
-                                <span class="d-none d-sm-inline">Feeling</span>
-                            </button>
                         </div>
                         <button type="submit" class="btn btn-primary fb-submit-btn px-4 rounded-pill fw-bold">
                             Post
@@ -149,8 +145,8 @@
         <?php require BASE_PATH . '/app/views/partials/pagination.php'; ?>
     </section>
 
-    <!-- Right column: Discover / Suggested People (Balances the layout & centers feed) -->
-    <aside class="col-xl-3 d-none d-xl-block">
+    <!-- Right column: Discover / Suggested People -->
+    <aside class="col-lg-3 col-xl-3 d-none d-lg-block">
         <div class="side-sticky">
             <?php if ($people): ?>
                 <div class="card fb-card person-suggest-card p-3 mb-3">
