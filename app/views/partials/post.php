@@ -1,6 +1,5 @@
 <?php
 /**
- * Minimalist single post card.
  * Expects: $post (array), $comments (array grouped by post_id)
  */
 $postComments = $comments[$post['id']] ?? [];

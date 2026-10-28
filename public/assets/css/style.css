@@ -457,7 +457,7 @@ a { text-decoration: none; }
 .discover-item .avatar { width: 50px; height: 50px; }
 .discover-item small { display: block; margin-top: .3rem; font-size: .72rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* ---------- Composer (Minimalist) ---------- */
+/*  Composer (Minimalist)  */
 .composer-minimal {
     border: 1px solid var(--line);
     border-radius: var(--radius);
@@ -503,7 +503,7 @@ a { text-decoration: none; }
     color: var(--brand-2);
 }
 
-/* ---------- Minimalist Posts ---------- */
+/*  Minimalist Posts  */
 .post {
     margin-bottom: 1.1rem;
     border: 1px solid var(--line);
@@ -797,7 +797,7 @@ a { text-decoration: none; }
 .stat-pill strong { color: var(--ink); }
 .section-title { font-weight: 800; letter-spacing: -.02em; }
 
-/* ---------- Search, lists, pills, pagination ---------- */
+/*  Search, lists, pills, pagination  */
 .nav-pills { --bs-nav-pills-link-active-bg: var(--brand-1); gap: .35rem; }
 .nav-pills .nav-link { border-radius: 999px; font-weight: 600; color: var(--muted); background: var(--surface); border: 1px solid var(--line); }
 .nav-pills .nav-link.active { color: #fff; background: var(--grad); border-color: transparent; }
@@ -806,7 +806,7 @@ a { text-decoration: none; }
 .pagination { --bs-pagination-active-bg: var(--brand-1); --bs-pagination-active-border-color: var(--brand-1); --bs-pagination-color: var(--brand-1); --bs-pagination-border-color: var(--line); gap: .3rem; }
 .page-link { border-radius: 12px !important; font-weight: 600; }
 
-/* ---------- Auth screens ---------- */
+/*  Auth screens  */
 .auth-wrap { max-width: 980px; margin: 1rem auto 0; }
 .auth-card { display: grid; grid-template-columns: 1.05fr 1fr; overflow: hidden; border-radius: 26px; }
 .auth-hero {
@@ -834,11 +834,11 @@ a { text-decoration: none; }
 .auth-form { padding: 2.6rem 2.4rem; background: var(--surface); }
 .demo-chip { display: inline-block; background: var(--chip); border-radius: 999px; padding: .2rem .7rem; font-size: .8rem; font-weight: 600; color: var(--brand-1); margin: .15rem; }
 
-/* ---------- Facebook UI Styles ---------- */
+/*  Facebook UI Styles  */
 .fb-layout { /* Let Bootstrap grid handle layout instead of conflicting CSS Grid */ }
 .fb-card { background: #ffffff; border-radius: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); margin-bottom: 1rem; border: none; }
 
-/* ---------- Unified Modern App Sidebar & Layout ---------- */
+/*  Unified Modern App Sidebar & Layout  */
 .feed-center-col {
     max-width: 660px;
     margin: 0 auto;
@@ -1158,9 +1158,9 @@ a.sidebar-link {
     transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
-/* ==========================================================================
+/* 
    Dark Mode Theme
-   ========================================================================== */
+    */
 [data-theme="dark"] {
     --bg: #0d0c15;
     --surface: #181628;

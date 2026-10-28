@@ -144,7 +144,7 @@ function csrf_valid(): bool
     return is_string($token) && hash_equals($_SESSION['csrf'] ?? '', $token);
 }
 
-/* ---------- Rate limiting (session-based) ---------- */
+
 
 /**
  * Simple session-based rate limiter.
@@ -167,7 +167,7 @@ function rate_limit(string $key, int $maxAttempts = 5, int $windowSeconds = 300)
     return true;
 }
 
-/* ---------- Password validation ---------- */
+/*  Password validation  */
 
 /** Enforce password strength: at least 8 characters, max 128. */
 function validate_password(string $password): array
@@ -182,7 +182,7 @@ function validate_password(string $password): array
     return $errors;
 }
 
-/* ---------- Time ---------- */
+/*  Time  */
 
 function time_ago(string $datetime): string
 {
@@ -204,7 +204,7 @@ function time_ago(string $datetime): string
     return date('M j, Y', $timestamp);
 }
 
-/* ---------- Image upload ---------- */
+/*  Image upload  */
 
 /**
  * Validate and store an uploaded image.

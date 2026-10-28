@@ -1,8 +1,5 @@
--- ============================================================
--- LyfeFeed Social Networking Web Application
--- Database: social_app   (MySQL 5.7+ / MariaDB 10.3+)
--- Sample users all use the password:  password123
--- ============================================================
+
+
 
 CREATE DATABASE IF NOT EXISTS social_app
     CHARACTER SET utf8mb4
@@ -15,9 +12,9 @@ DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS users;
 
--- ------------------------------------------------------------
+
 -- users
--- ------------------------------------------------------------
+
 CREATE TABLE users (
     id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
     username      VARCHAR(30)  NOT NULL,
@@ -46,9 +43,9 @@ CREATE TABLE posts (
         REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ------------------------------------------------------------
+
 -- comments
--- ------------------------------------------------------------
+
 CREATE TABLE comments (
     id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
     post_id    INT UNSIGNED NOT NULL,
@@ -64,9 +61,9 @@ CREATE TABLE comments (
         REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ------------------------------------------------------------
+
 -- likes  (one like per user per post enforced by UNIQUE key)
--- ------------------------------------------------------------
+
 CREATE TABLE likes (
     id      INT UNSIGNED NOT NULL AUTO_INCREMENT,
     post_id INT UNSIGNED NOT NULL,
