@@ -35,12 +35,147 @@
         });
     });
 
-    /* 2. Confirm before delete ------------------------------------------ */
+    /* --- GUI Alert, Confirm & Toast Helpers --- */
+    window.showAppAlert = function(message, title, type) {
+        title = title || 'Notice';
+        type = type || 'warning';
+
+        var modalEl = document.getElementById('appAlertModal');
+        if (!modalEl) {
+            alert(message);
+            return;
+        }
+
+        var titleEl = document.getElementById('appAlertTitle');
+        var msgEl = document.getElementById('appAlertMessage');
+        var iconWrap = document.getElementById('appAlertIconWrap');
+        var iconEl = document.getElementById('appAlertIcon');
+
+        if (titleEl) titleEl.textContent = title;
+        if (msgEl) msgEl.textContent = message;
+
+        if (iconWrap && iconEl) {
+            iconWrap.className = 'alert-modal-icon-wrap mx-auto mb-3 ' + type;
+            var iconClass = 'bi-exclamation-triangle-fill';
+            if (type === 'danger') iconClass = 'bi-x-circle-fill';
+            else if (type === 'success') iconClass = 'bi-check-circle-fill';
+            else if (type === 'info') iconClass = 'bi-info-circle-fill';
+            iconEl.className = 'bi ' + iconClass + ' fs-2';
+        }
+
+        var modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modalInstance.show();
+    };
+
+    window.showAppConfirm = function(message, onConfirm, title) {
+        title = title || 'Are you sure?';
+
+        var modalEl = document.getElementById('appConfirmModal');
+        if (!modalEl) {
+            if (window.confirm(message)) { onConfirm(); }
+            return;
+        }
+
+        var titleEl = document.getElementById('appConfirmTitle');
+        var msgEl = document.getElementById('appConfirmMessage');
+        var proceedBtn = document.getElementById('appConfirmProceedBtn');
+
+        if (titleEl) titleEl.textContent = title;
+        if (msgEl) msgEl.textContent = message;
+
+        var modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+
+        var newProceedBtn = proceedBtn.cloneNode(true);
+        proceedBtn.parentNode.replaceChild(newProceedBtn, proceedBtn);
+        newProceedBtn.addEventListener('click', function() {
+            modalInstance.hide();
+            onConfirm();
+        });
+
+        modalInstance.show();
+    };
+
+    window.showAppToast = function(message, type, duration) {
+        type = type || 'success';
+        duration = duration || 3500;
+
+        var container = document.querySelector('.flash-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.className = 'flash-container';
+            container.setAttribute('aria-live', 'polite');
+            document.body.prepend(container);
+        }
+
+        var iconMap = {
+            'success': 'bi-check-circle-fill',
+            'danger': 'bi-exclamation-triangle-fill',
+            'error': 'bi-exclamation-triangle-fill',
+            'warning': 'bi-exclamation-circle-fill',
+            'info': 'bi-info-circle-fill'
+        };
+
+        var toast = document.createElement('div');
+        toast.className = 'flash-toast flash-toast-' + type;
+        toast.setAttribute('role', 'alert');
+        toast.dataset.autoDismiss = duration;
+
+        var content = document.createElement('div');
+        content.className = 'flash-toast-content';
+
+        var icon = document.createElement('i');
+        icon.className = 'bi ' + (iconMap[type] || 'bi-info-circle-fill') + ' flash-toast-icon';
+        content.appendChild(icon);
+
+        var msgDiv = document.createElement('div');
+        msgDiv.className = 'flash-toast-message';
+        msgDiv.textContent = message;
+        content.appendChild(msgDiv);
+
+        var closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.className = 'flash-toast-close';
+        closeBtn.setAttribute('aria-label', 'Close');
+        closeBtn.innerHTML = '<i class="bi bi-x-lg"></i>';
+        content.appendChild(closeBtn);
+
+        toast.appendChild(content);
+
+        var progress = document.createElement('div');
+        progress.className = 'flash-toast-progress';
+        var progressBar = document.createElement('div');
+        progressBar.className = 'flash-toast-progress-bar';
+        progress.appendChild(progressBar);
+        toast.appendChild(progress);
+
+        container.appendChild(toast);
+
+        function dismissToast() {
+            if (toast.classList.contains('dismissing')) return;
+            toast.classList.add('dismissing');
+            setTimeout(function() {
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 380);
+        }
+
+        var timer = setTimeout(dismissToast, duration);
+        closeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            clearTimeout(timer);
+            dismissToast();
+        });
+        toast.addEventListener('mouseenter', function() { clearTimeout(timer); });
+        toast.addEventListener('mouseleave', function() { timer = setTimeout(dismissToast, 1500); });
+    };
+
+    /* 2. Confirm before delete (GUI modal) ------------------------------- */
     document.querySelectorAll('form[data-confirm]').forEach(function (form) {
         form.addEventListener('submit', function (event) {
-            if (!window.confirm(form.dataset.confirm)) {
-                event.preventDefault();
-            }
+            event.preventDefault();
+            var confirmMsg = form.dataset.confirm || 'Are you sure you want to proceed?';
+            showAppConfirm(confirmMsg, function() {
+                form.submit();
+            });
         });
     });
 
@@ -110,7 +245,9 @@
             var url = btn.getAttribute('data-post-url');
             if (url) {
                 navigator.clipboard.writeText(url).then(function() {
-                    alert('Link copied to clipboard!');
+                    showAppToast('Link copied to clipboard!', 'success');
+                }).catch(function() {
+                    showAppToast('Failed to copy link.', 'danger');
                 });
             }
         });
@@ -187,13 +324,14 @@
                 return;
             }
             if (ALLOWED.indexOf(file.type) === -1) {
-                alert('Only JPG, PNG, GIF, or WEBP images are allowed.');
                 input.value = '';
+                showAppAlert('Only JPG, PNG, GIF, or WEBP image files are supported.', 'Unsupported File Format', 'warning');
                 return;
             }
             if (file.size > MAX_BYTES) {
-                alert('Image must be 2 MB or smaller.');
                 input.value = '';
+                var sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+                showAppAlert('The selected image is ' + sizeMb + ' MB. Photos must be 2 MB or smaller.', 'File Too Large', 'warning');
                 return;
             }
             if (preview) {

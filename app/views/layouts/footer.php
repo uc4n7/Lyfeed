@@ -54,7 +54,48 @@
     </div>
 </div>
 
+<!-- App GUI Alert Modal -->
+<div class="modal fade" id="appAlertModal" tabindex="-1" aria-hidden="true" style="z-index: 1065;">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
+        <div class="modal-content rounded-4 border-0 shadow-lg text-center p-4">
+            <div class="modal-body p-0">
+                <div class="alert-modal-icon-wrap mx-auto mb-3 warning" id="appAlertIconWrap">
+                    <i class="bi bi-exclamation-triangle-fill fs-2" id="appAlertIcon"></i>
+                </div>
+                <h2 class="h5 fw-bold mb-2" id="appAlertTitle">Notice</h2>
+                <p class="text-muted small mb-4" id="appAlertMessage">Message text here.</p>
+                <button type="button" class="btn btn-primary w-100 py-2 rounded-pill fw-semibold" data-bs-dismiss="modal" id="appAlertOkBtn">
+                    Got it
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- App GUI Confirmation Modal -->
+<div class="modal fade" id="appConfirmModal" tabindex="-1" aria-hidden="true" style="z-index: 1065;">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
+        <div class="modal-content rounded-4 border-0 shadow-lg text-center p-4">
+            <div class="modal-body p-0">
+                <div class="alert-modal-icon-wrap mx-auto mb-3 danger">
+                    <i class="bi bi-trash3-fill fs-2"></i>
+                </div>
+                <h2 class="h5 fw-bold mb-2" id="appConfirmTitle">Are you sure?</h2>
+                <p class="text-muted small mb-4" id="appConfirmMessage">This action cannot be undone.</p>
+                <div class="d-flex gap-2 justify-content-center">
+                    <button type="button" class="btn btn-outline-secondary w-50 py-2 rounded-pill fw-semibold" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-danger w-50 py-2 rounded-pill fw-semibold" id="appConfirmProceedBtn">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<?= e(asset('js/app.js')) ?>"></script>
+<script src="<?= e(asset('js/app.js')) ?>?v=<?= filemtime(BASE_PATH . '/public/assets/js/app.js') ?>"></script>
 </body>
 </html>

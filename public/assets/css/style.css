@@ -1158,10 +1158,35 @@ a.sidebar-link {
 }
 
 /* 
-   Modal Theater Sidebar
+   Modal Theater Sidebar & GUI Alert Modals
 */
 .modal-sidebar-panel {
     background: #ffffff;
+}
+.alert-modal-icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+.alert-modal-icon-wrap.warning {
+    background: rgba(245, 158, 11, 0.14);
+    color: #f59e0b;
+}
+.alert-modal-icon-wrap.danger {
+    background: rgba(239, 68, 68, 0.14);
+    color: #ef4444;
+}
+.alert-modal-icon-wrap.success {
+    background: rgba(16, 185, 129, 0.14);
+    color: #10b981;
+}
+.alert-modal-icon-wrap.info {
+    background: rgba(59, 130, 246, 0.14);
+    color: #3b82f6;
 }
 
 /* ==========================================================================
@@ -1652,6 +1677,22 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     background-color: var(--surface) !important;
     border-color: var(--line) !important;
     color: var(--ink) !important;
+}
+[data-theme="dark"] .alert-modal-icon-wrap.warning {
+    background: rgba(245, 158, 11, 0.22);
+    color: #fbbf24;
+}
+[data-theme="dark"] .alert-modal-icon-wrap.danger {
+    background: rgba(239, 68, 68, 0.22);
+    color: #f87171;
+}
+[data-theme="dark"] .alert-modal-icon-wrap.success {
+    background: rgba(16, 185, 129, 0.22);
+    color: #34d399;
+}
+[data-theme="dark"] .alert-modal-icon-wrap.info {
+    background: rgba(59, 130, 246, 0.22);
+    color: #60a5fa;
 }
 [data-theme="dark"] #modalSidebar,
 [data-theme="dark"] .modal-sidebar-panel {
