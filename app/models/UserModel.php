@@ -1,7 +1,5 @@
 <?php
-/**
- * UserModel - data access for the `users` table. Database logic only.
- */
+// Queries for the users table.
 class UserModel
 {
     private PDO $db;
@@ -20,7 +18,7 @@ class UserModel
         return $stmt->fetch() ?: null;
     }
 
-    /** Includes the password hash - used only for login verification. */
+    // Includes the password hash; use only for login.
     public function findByUsername(string $username): ?array
     {
         $stmt = $this->db->prepare('SELECT * FROM users WHERE username = :username');
@@ -65,7 +63,7 @@ class UserModel
         ]);
     }
 
-    /** Newest members other than the given user (for the "Discover" row / suggestions). */
+    // Newest users except $exceptId, for the Discover list.
     public function others(int $exceptId, int $limit = 8): array
     {
         $stmt = $this->db->prepare(
@@ -81,7 +79,7 @@ class UserModel
         return $stmt->fetchAll();
     }
 
-    /** Search by full name or username. LIKE wildcards in user input are escaped. */
+    // Match name or username. Escapes LIKE wildcards in the search term.
     public function search(string $term, int $limit = 20): array
     {
         $like = '%' . addcslashes($term, '%_\\') . '%';
@@ -99,7 +97,7 @@ class UserModel
         return $stmt->fetchAll();
     }
 
-    /** Update password hash (for rehashing on login). */
+    // Replace the stored password hash after a rehash on login.
     public function updatePassword(int $id, string $passwordHash): bool
     {
         $stmt = $this->db->prepare('UPDATE users SET password = :password WHERE id = :id');

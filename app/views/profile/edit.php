@@ -16,7 +16,7 @@
                     <div class="mb-4">
                         <label class="form-label d-block fw-semibold">Banner background (Cover Photo)</label>
                         
-                        <!-- Drag-to-reposition Preview Container -->
+                        <!-- Cover preview; drag to set crop -->
                         <div class="cover-reposition-box position-relative mb-2 rounded-3 overflow-hidden shadow-sm border"
                              id="coverRepositionContainer"
                              style="height: 180px; background: var(--grad); cursor: <?= !empty($profile['cover_image']) ? 'grab' : 'default' ?>;">
@@ -41,7 +41,7 @@
                             <?php endif; ?>
                         </div>
 
-                        <!-- Slider control for fine-tuning -->
+                        <!-- Slider for cover vertical position -->
                         <div class="card p-2 mb-2 bg-light border-0 <?= empty($profile['cover_image']) ? 'd-none' : '' ?>" id="coverSliderWrap">
                             <div class="d-flex align-items-center justify-content-between text-muted small mb-1">
                                 <span><i class="bi bi-arrow-up me-1"></i>Top section</span>
@@ -51,7 +51,7 @@
                             <input type="range" class="form-range" id="coverPositionSlider" min="0" max="100" value="<?= $currentPos ?>">
                         </div>
 
-                        <!-- Hidden input to submit the chosen position percentage -->
+                        <!-- Saved cover position (0–100) -->
                         <input type="hidden" name="cover_position" id="cover_position" value="<?= $currentPos ?>">
 
                         <input type="file" class="form-control" id="cover_image" name="cover_image"

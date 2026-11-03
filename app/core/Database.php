@@ -1,7 +1,5 @@
 <?php
-/**
- * Singleton PDO connection. Models obtain the connection from here.
- */
+// One shared PDO connection for all models.
 class Database
 {
     private static ?PDO $pdo = null;
@@ -17,10 +15,10 @@ class Database
                 self::$pdo = new PDO($dsn, $db['user'], $db['pass'], [
                     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES   => false,   // real prepared statements
+                    PDO::ATTR_EMULATE_PREPARES   => false,
                 ]);
 
-                // Synchronize MySQL session time zone with PHP application time zone
+                // Keep MySQL timestamps in the same timezone as PHP.
                 $tzOffset = (new DateTime('now', new DateTimeZone(config('app.timezone', 'Asia/Manila'))))->format('P');
                 $tzStmt = self::$pdo->prepare("SET time_zone = ?");
                 $tzStmt->execute([$tzOffset]);

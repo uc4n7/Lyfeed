@@ -1,12 +1,10 @@
 <?php
-/**
- * PostModel - data access for the `posts` table. Database logic only.
- */
+// Queries for the posts table.
 class PostModel
 {
     private PDO $db;
 
-    /** Shared SELECT: post + author info + like count + comment count + whether viewer liked it. */
+    // Post plus author, like count, comment count, and whether the viewer liked it.
     private const BASE_SELECT =
         'SELECT p.id, p.user_id, p.content, p.image, p.created_at,
                 u.username, u.full_name, u.profile_image,
@@ -28,7 +26,7 @@ class PostModel
         return $stmt->fetch() ?: null;
     }
 
-    /** Newsfeed: all posts, latest first, paginated. */
+    // All posts, newest first, for the home feed.
     public function feed(int $viewerId, int $limit, int $offset): array
     {
         $stmt = $this->db->prepare(
@@ -62,7 +60,7 @@ class PostModel
         return (int)$stmt->fetchColumn();
     }
 
-    /** Search posts by keyword in content or author name / username. */
+    // Match post text, author name, or username.
     public function search(string $term, int $viewerId, int $limit = 20): array
     {
         $like = '%' . addcslashes($term, '%_\\') . '%';
@@ -90,14 +88,14 @@ class PostModel
         return (int)$this->db->lastInsertId();
     }
 
-    /** Defense-in-depth: only the owning user can update their own post. */
+    // Update only if $userId owns the post.
     public function update(int $id, int $userId, string $content, ?string $image): bool
     {
         $stmt = $this->db->prepare('UPDATE posts SET content = :content, image = :image WHERE id = :id AND user_id = :uid');
         return $stmt->execute([':content' => $content, ':image' => $image, ':id' => $id, ':uid' => $userId]);
     }
 
-    /** Defense-in-depth: only the owning user can delete their own post. */
+    // Delete only if $userId owns the post.
     public function delete(int $id, int $userId): bool
     {
         $stmt = $this->db->prepare('DELETE FROM posts WHERE id = :id AND user_id = :uid');

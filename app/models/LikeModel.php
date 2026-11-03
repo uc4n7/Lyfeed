@@ -1,7 +1,5 @@
 <?php
-/**
- * LikeModel - data access for the `likes` table. One like per user per post.
- */
+// Queries for likes. One like per user per post.
 class LikeModel
 {
     private PDO $db;
@@ -25,7 +23,7 @@ class LikeModel
         return (int)$stmt->fetchColumn();
     }
 
-    /** INSERT IGNORE + UNIQUE(post_id, user_id) guarantees a single like per user per post. */
+    // Insert a like; UNIQUE(post_id, user_id) blocks duplicates.
     public function add(int $postId, int $userId): bool
     {
         $stmt = $this->db->prepare('INSERT IGNORE INTO likes (post_id, user_id) VALUES (:pid, :uid)');

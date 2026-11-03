@@ -1,13 +1,13 @@
-<div class="row g-4 justify-content-center fb-layout">
+<div class="row g-4 justify-content-center">
 
-    <!-- Left column: Sleek Modern Navigation Sidebar -->
+    <!-- Left: profile card and nav -->
     <aside class="col-lg-3 col-xl-3 d-none d-lg-block">
         <div class="side-sticky">
             <div class="sidebar-card">
-                <!-- Cover Banner -->
+                <!-- Cover photo -->
                 <div class="sidebar-cover" <?= !empty($me['cover_image']) ? 'style="background-image: url(\'' . e(upload_url($me['cover_image'])) . '\'); background-position: center ' . (int)($me['cover_position'] ?? 50) . '%;"' : '' ?>></div>
 
-                <!-- User Profile Identity -->
+                <!-- Name, username, avatar -->
                 <div class="sidebar-profile-body">
                     <a href="<?= e(url('profile/show', ['id' => $me['id']])) ?>" class="sidebar-avatar-link" title="View profile">
                         <span class="avatar-ring">
@@ -22,7 +22,7 @@
 
                 <hr class="sidebar-divider">
 
-                <!-- Navigation Links -->
+                <!-- Feed, friends, profile, settings -->
                 <div class="sidebar-nav-wrap">
                     <ul class="sidebar-nav">
                         <li>
@@ -52,7 +52,7 @@
                     </ul>
                 </div>
 
-                <!-- Sidebar Footer Quick Actions -->
+                <!-- Edit profile and log out -->
                 <div class="sidebar-footer">
                     <a href="<?= e(url('profile/edit')) ?>" class="small text-muted text-decoration-none d-flex align-items-center gap-1">
                         <i class="bi bi-sliders"></i> Edit Profile
@@ -68,10 +68,10 @@
         </div>
     </aside>
 
-    <!-- Center column: Newsfeed (Centered & optimal width) -->
+    <!-- Center: composer and posts -->
     <section class="col-12 col-lg-6 col-xl-6 feed-center-col">
 
-        <!-- Discover / People (shown on mobile where right sidebar hides) -->
+        <!-- Suggested people (mobile only; right column is hidden) -->
         <?php if ($people): ?>
             <div class="discover-minimal mb-3 d-lg-none" aria-label="Discover people">
                 <div class="discover-minimal-track">
@@ -87,7 +87,7 @@
             </div>
         <?php endif; ?>
 
-        <!-- Facebook Composer Card -->
+        <!-- New post form -->
         <div class="card fb-card fb-composer mb-3 scroll-offset" id="composer">
             <div class="card-body p-3">
                 <form action="<?= e(url('post/store')) ?>" method="post" enctype="multipart/form-data"
@@ -112,7 +112,7 @@
 
                     <hr class="fb-divider my-2">
 
-                    <!-- Facebook Action Buttons Row -->
+                    <!-- Photo attach and Post button -->
                     <div class="d-flex align-items-center justify-content-between pt-1">
                         <div class="d-flex gap-2">
                             <label class="fb-composer-btn text-success" title="Add a photo or video">
@@ -130,7 +130,7 @@
             </div>
         </div>
 
-        <!-- Newsfeed Timeline -->
+        <!-- Post list -->
         <?php if (!$posts): ?>
             <div class="card fb-card text-center text-muted py-5 px-3">
                 <i class="bi bi-newspaper display-4" style="color: #1877f2;"></i>
@@ -145,7 +145,7 @@
         <?php require BASE_PATH . '/app/views/partials/pagination.php'; ?>
     </section>
 
-    <!-- Right column: Discover / Suggested People -->
+    <!-- Right: suggested people -->
     <aside class="col-lg-3 col-xl-3 d-none d-lg-block">
         <div class="side-sticky">
             <?php if ($people): ?>

@@ -1,7 +1,5 @@
 <?php
-/**
- * Expects: $post (array), $comments (array grouped by post_id)
- */
+// One post card. Needs $post and $comments grouped by post_id.
 $postComments = $comments[$post['id']] ?? [];
 $commentCount = count($postComments);
 $isMine       = (int)$post['user_id'] === current_user_id();
@@ -11,7 +9,7 @@ $likeCount    = (int)$post['like_count'];
 ?>
 <article class="card fb-card fb-post scroll-offset mb-3" id="post-<?= (int)$post['id'] ?>">
 
-    <!-- Facebook Post Header -->
+    <!-- Author, time, and owner menu -->
     <header class="fb-post-header">
         <a href="<?= e(url('profile/show', ['id' => $post['user_id']])) ?>" class="avatar-link">
             <img src="<?= e(avatar_url($post['profile_image'])) ?>" alt="" class="avatar avatar-sm">
@@ -45,10 +43,10 @@ $likeCount    = (int)$post['like_count'];
         <?php endif; ?>
     </header>
 
-    <!-- Post Text Content -->
+    <!-- Post text -->
     <div class="fb-post-text <?= $bigText ? 'big' : '' ?>"><?= nl2br(e($post['content'])) ?></div>
 
-    <!-- Post Media / Image -->
+    <!-- Optional photo; double-click likes it -->
     <?php if ($hasImage): ?>
         <div class="fb-post-media" data-like-target>
             <img src="<?= e(upload_url($post['image'])) ?>" alt="Photo shared by <?= e($post['full_name']) ?>" loading="lazy" class="post-img-zoom" style="cursor: zoom-in;"
@@ -59,7 +57,7 @@ $likeCount    = (int)$post['like_count'];
         </div>
     <?php endif; ?>
 
-    <!-- Facebook Reactions & Comments Stats Bar -->
+    <!-- Like and comment counts -->
     <div class="fb-post-stats">
         <div class="fb-stats-left">
             <span class="like-count"><?= $likeCount ?></span> <span class="like-word ms-1"><?= $likeCount === 1 ? 'like' : 'likes' ?></span>
@@ -71,7 +69,7 @@ $likeCount    = (int)$post['like_count'];
 
     <hr class="fb-divider my-0">
 
-    <!-- Facebook 3-Action Buttons Row (Like, Comment, Share) -->
+    <!-- Like, comment, share -->
     <div class="fb-actions-row">
         <form action="<?= e(url('like/toggle')) ?>" method="post" class="like-form fb-action-form">
             <?= csrf_field() ?>
@@ -97,7 +95,7 @@ $likeCount    = (int)$post['like_count'];
         </button>
     </div>
 
-    <!-- Facebook Comments Drawer -->
+    <!-- Comments list and form -->
     <div class="collapse" id="comments-<?= (int)$post['id'] ?>">
         <div class="fb-comments-section">
             <hr class="fb-divider my-0 mb-3">
@@ -109,7 +107,7 @@ $likeCount    = (int)$post['like_count'];
                 </div>
             <?php endif; ?>
 
-            <!-- Facebook Comment Composer Form -->
+            <!-- Add a comment -->
             <form action="<?= e(url('comment/store')) ?>" method="post" class="fb-comment-form needs-validation" novalidate>
                 <?= csrf_field() ?>
                 <input type="hidden" name="post_id" value="<?= (int)$post['id'] ?>">

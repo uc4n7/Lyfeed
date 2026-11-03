@@ -1,7 +1,5 @@
 <?php
-/**
- * PostController - create / edit / update / delete posts (owner only).
- */
+// Create, edit, and delete posts. Only the author can change a post.
 class PostController extends Controller
 {
     private PostModel $posts;
@@ -87,7 +85,7 @@ class PostController extends Controller
         redirect('feed/index');
     }
 
-    /** Load a post and make sure the logged-in user owns it (authorization check). */
+    // Load a post and stop if the current user is not the author.
     private function ownedPost(int $id): array
     {
         $post = $this->posts->find($id, current_user_id());

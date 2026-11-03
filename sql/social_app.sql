@@ -13,23 +13,23 @@ DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS users;
 
 
--- users
+-- Accounts
 
 CREATE TABLE users (
     id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
     username      VARCHAR(30)  NOT NULL,
-    password      VARCHAR(255) NOT NULL,           -- password_hash() output
+    password      VARCHAR(255) NOT NULL, -- hashed with password_hash()
     full_name     VARCHAR(100) NOT NULL,
     bio           TEXT NULL,
-    profile_image VARCHAR(255) NULL,               -- file name inside public/assets/uploads/
-    cover_image   VARCHAR(255) NULL,               -- banner background inside public/assets/uploads/
-    cover_position INT NOT NULL DEFAULT 50,        -- vertical position percentage (0-100)
+    profile_image VARCHAR(255) NULL, -- filename in public/assets/uploads/
+    cover_image   VARCHAR(255) NULL, -- cover filename in public/assets/uploads/
+    cover_position INT NOT NULL DEFAULT 50, -- cover crop, 0 = top, 100 = bottom
     created_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE KEY uq_users_username (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---post 
+-- Posts 
 CREATE TABLE posts (
     id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
     user_id    INT UNSIGNED NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE posts (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- comments
+-- Comments on posts
 
 CREATE TABLE comments (
     id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -62,7 +62,7 @@ CREATE TABLE comments (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- likes  (one like per user per post enforced by UNIQUE key)
+-- Likes. UNIQUE(post_id, user_id) allows one like per user per post.
 
 CREATE TABLE likes (
     id      INT UNSIGNED NOT NULL AUTO_INCREMENT,

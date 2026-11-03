@@ -1,13 +1,10 @@
 <?php
-/**
- * Base controller: view rendering and common guards.
- */
+// Shared view rendering plus login, guest, and CSRF checks.
 abstract class Controller
 {
-    /** Render a view inside the header/footer layout. $data keys become variables. */
+    // Render a view. $data keys become variables. Loads $navUser for the header.
     protected function view(string $view, array $data = [], bool $layout = true): void
     {
-        // Logged-in user for the navbar, fetched here so views stay free of database logic.
         $data['navUser'] = is_logged_in() ? (new UserModel())->findById(current_user_id()) : null;
         extract($data, EXTR_SKIP);
         $file = BASE_PATH . '/app/views/' . $view . '.php';
@@ -27,7 +24,7 @@ abstract class Controller
         clear_old();
     }
 
-    /** Only logged-in users may continue. */
+    // Send guests to the login page.
     protected function requireLogin(): void
     {
         if (!is_logged_in()) {
@@ -36,7 +33,7 @@ abstract class Controller
         }
     }
 
-    /** Only guests (logged-out users) may continue. */
+    // Send logged-in users away from login/register.
     protected function requireGuest(): void
     {
         if (is_logged_in()) {
@@ -44,7 +41,7 @@ abstract class Controller
         }
     }
 
-    /** Only POST requests with a valid CSRF token may continue. */
+    // Require POST plus a valid CSRF token.
     protected function requirePost(): void
     {
         $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';

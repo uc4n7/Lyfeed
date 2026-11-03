@@ -1,8 +1,8 @@
 <?php
 $pageTitle = isset($title) ? $title . ' | ' . config('app.name') : config('app.name');
-$navUser   = $navUser ?? null;   // supplied by Controller::view(); views never query the database
+$navUser   = $navUser ?? null; // set in Controller::view()
 
-// Presentation-only helpers for highlighting the active nav item.
+// Which nav link to mark active.
 $route     = $_GET['route'] ?? 'feed/index';
 $onHome    = str_starts_with($route, 'feed');
 $onSearch  = str_starts_with($route, 'search') && ($_GET['type'] ?? '') === 'posts';
@@ -19,13 +19,13 @@ $onProfile = $navUser && str_starts_with($route, 'profile')
     <meta name="csrf-token" content="<?= e(csrf_token()) ?>">
     <title><?= e($pageTitle) ?></title>
 
-    <!-- Favicon -->
+    <!-- Site icon -->
     <link rel="icon" type="image/svg+xml" href="<?= e(asset('img/favicon.svg')) ?>">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= e(asset('img/favicon.png')) ?>">
     <link rel="shortcut icon" href="<?= e(base_url()) ?>/favicon.ico">
     <link rel="apple-touch-icon" href="<?= e(asset('img/favicon.png')) ?>">
 
-    <!-- Immediate theme application to prevent flash of unstyled content -->
+    <!-- Apply saved theme before CSS so the page does not flash the wrong colors. -->
     <script>
         (function() {
             var savedTheme = localStorage.getItem('theme');
@@ -74,7 +74,7 @@ $onProfile = $navUser && str_starts_with($route, 'profile')
                     <i class="bi bi-people<?= $onUsers ? '-fill' : '' ?>"></i>
                 </a>
 
-                <!-- Dark mode toggle button in topbar -->
+                <!-- Dark mode button -->
                 <button type="button" class="topnav-link theme-toggle-btn border-0 bg-transparent d-none d-sm-grid" title="Toggle dark mode" aria-label="Toggle dark mode">
                     <i class="bi bi-moon-stars"></i>
                 </button>

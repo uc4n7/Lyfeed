@@ -1,7 +1,5 @@
 <?php
-/**
- * CommentController - add / edit / update / delete comments (owner only for edit/delete).
- */
+// Create, edit, and delete comments. Only the author can edit or delete.
 class CommentController extends Controller
 {
     private CommentModel $comments;
@@ -42,10 +40,10 @@ class CommentController extends Controller
 
         $id = $this->comments->create($postId, current_user_id(), $content);
 
-        // AJAX request: return the new comment as JSON (escape for safe client rendering)
+        // AJAX: return the new comment as JSON so the feed does not reload.
         if ($isAjax) {
             $comment = $this->comments->find($id);
-            // Escape HTML-sensitive fields before sending as JSON
+            // Escape fields the client will insert into the page.
             $comment['content']   = e($comment['content']);
             $comment['full_name'] = e($comment['full_name']);
             $comment['username']  = e($comment['username']);
@@ -105,7 +103,7 @@ class CommentController extends Controller
         return $comment;
     }
 
-    /** Return to the feed, scrolled to the post that was commented on. */
+    // Go back to the feed, scrolled to this post.
     private function backToPost(int $postId): void
     {
         header('Location: ' . url('feed/index') . '#post-' . $postId);

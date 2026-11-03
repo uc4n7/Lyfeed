@@ -1,7 +1,5 @@
 <?php
-/**
- * ProfileController - view and edit profiles.
- */
+// View a profile and update the logged-in user's own profile.
 class ProfileController extends Controller
 {
     private UserModel $users;
@@ -48,7 +46,7 @@ class ProfileController extends Controller
         $this->requireLogin();
         $this->requirePost();
 
-        $user     = $this->users->findById(current_user_id());   // always the logged-in user, never from POST
+        $user     = $this->users->findById(current_user_id()); // never take user id from POST
         $fullName = clean($_POST['full_name'] ?? '');
         $bio      = clean($_POST['bio'] ?? '');
 

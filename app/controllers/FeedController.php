@@ -1,7 +1,5 @@
 <?php
-/**
- * FeedController - newsfeed / timeline with pagination.
- */
+// Home feed: paginated posts, comments, and suggested people.
 class FeedController extends Controller
 {
     public function index(): void

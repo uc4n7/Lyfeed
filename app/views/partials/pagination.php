@@ -1,5 +1,5 @@
 <?php
-/** Expects: $page, $pages */
+// Page links. Needs $page and $pages.
 if (($pages ?? 1) > 1):
     $start = max(1, $page - 2);
     $end   = min($pages, $page + 2);

@@ -1,7 +1,5 @@
 <?php
-/**
- * AuthController - register, login, logout.
- */
+// Register, log in, and log out.
 class AuthController extends Controller
 {
     private UserModel $users;
@@ -18,7 +16,7 @@ class AuthController extends Controller
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->requirePost();
 
-            // Rate limit: max 5 registrations per 15 minutes per session
+            // Block more than 5 registrations per 15 minutes in this session.
             if (!rate_limit('register', 5, 900)) {
                 flash('danger', 'Too many registration attempts. Please try again later.');
                 redirect('auth/register');
@@ -38,7 +36,7 @@ class AuthController extends Controller
             if ($fullName === '' || mb_strlen($fullName) > 100) {
                 $errors[] = 'Full name is required (max 100 characters).';
             }
-            // Validate password strength (min 8, max 128)
+            // Password must be 8–128 characters.
             $pwErrors = validate_password($password);
             if ($pwErrors) {
                 $errors = array_merge($errors, $pwErrors);
@@ -80,7 +78,7 @@ class AuthController extends Controller
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->requirePost();
 
-            // Rate limit: max 5 login attempts per 5 minutes per session
+            // Block more than 7 login attempts per 60 seconds in this session.
             if (!rate_limit('login', 7, 60)) {
                 flash('danger', 'Too many login attempts. Please try again in a few minutes.');
                 redirect('auth/login');
@@ -97,20 +95,20 @@ class AuthController extends Controller
 
             $user = $this->users->findByUsername($username);
 
-            // Same message for unknown user and wrong password (no user enumeration).
+            // Same error for unknown user and wrong password.
             if (!$user || !password_verify($password, $user['password'])) {
                 flash('danger', 'Invalid username or password.');
                 remember_old(['username' => $username]);
                 redirect('auth/login');
             }
 
-            // Rehash password if algorithm/cost has changed
+            // Rehash if PHP's password algorithm has changed.
             if (password_needs_rehash($user['password'], PASSWORD_DEFAULT)) {
                 $this->users->updatePassword((int)$user['id'], password_hash($password, PASSWORD_DEFAULT));
             }
 
-            session_regenerate_id(true);                    // prevent session fixation
-            csrf_regenerate();                              // rotate CSRF token too
+            session_regenerate_id(true);
+            csrf_regenerate();
             $_SESSION['user_id'] = (int)$user['id'];
             flash('success', 'Welcome back, ' . $user['full_name'] . '!');
             redirect('feed/index');

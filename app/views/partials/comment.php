@@ -1,5 +1,5 @@
 <?php
-/** Single comment row. Expects: $c (comment array) */
+// One comment. Needs $c.
 $commentMine = (int)$c['user_id'] === current_user_id();
 ?>
 <div class="fb-comment-item d-flex gap-2 mb-2">

@@ -1,7 +1,5 @@
 <?php
-/**
- * LikeController - like / unlike toggle. Works with AJAX (JSON) and plain form posts.
- */
+// Toggle like/unlike. Returns JSON for AJAX, otherwise redirects to the post.
 class LikeController extends Controller
 {
     public function toggle(): void

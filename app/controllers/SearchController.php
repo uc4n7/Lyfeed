@@ -1,7 +1,5 @@
 <?php
-/**
- * SearchController - search users (name / username) and posts (keywords).
- */
+// Search people by name/username or posts by keyword.
 class SearchController extends Controller
 {
     public function index(): void

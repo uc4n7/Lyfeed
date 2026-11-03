@@ -1,4 +1,4 @@
-/* Theme */
+/* Color tokens and Bootstrap variable overrides */
 
 :root {
     --brand-1: #7c3aed;           
@@ -29,7 +29,7 @@
     --bs-border-color: var(--line);
 }
 
-/* ---------- Base ---------- */
+/* Page layout */
 body {
     background: var(--bg);
     color: var(--ink);
@@ -44,7 +44,7 @@ a { text-decoration: none; }
 .app-main { max-width: 1240px; margin: 0 auto; }
 :target, .scroll-offset { scroll-margin-top: 84px; }
 
-/*Buttons & forms*/
+/* Buttons and form controls */
 .btn { border-radius: 999px; font-weight: 600; }
 .btn-primary {
     --bs-btn-color: #fff;
@@ -86,7 +86,7 @@ a { text-decoration: none; }
 .input-group-text { border-radius: 14px 0 0 14px; background: var(--chip); border-color: var(--line); color: var(--muted); }
 .alert { border: 0; border-radius: 14px; box-shadow: var(--shadow); }
 
-/*  Animated Flash Notifications  */
+/* Flash toast notifications */
 .flash-container {
     position: relative;
     margin-bottom: 1.25rem;
@@ -172,7 +172,7 @@ a { text-decoration: none; }
     animation-play-state: paused;
 }
 
-/* Green notification (success) */
+/* Success toast */
 .flash-toast-success {
     background: #ecfdf5;
     color: #065f46;
@@ -182,7 +182,7 @@ a { text-decoration: none; }
     color: #059669;
 }
 
-/* Danger / Error */
+/* Error toast */
 .flash-toast-danger, .flash-toast-error {
     background: #fef2f2;
     color: #991b1b;
@@ -192,7 +192,7 @@ a { text-decoration: none; }
     color: #dc2626;
 }
 
-/* Warning */
+/* Warning toast */
 .flash-toast-warning {
     background: #fffbeb;
     color: #92400e;
@@ -202,7 +202,7 @@ a { text-decoration: none; }
     color: #d97706;
 }
 
-/* Info */
+/* Info toast */
 .flash-toast-info {
     background: #eff6ff;
     color: #1e40af;
@@ -257,7 +257,7 @@ a { text-decoration: none; }
 }
 .card .shadow-sm { box-shadow: none !important; }
 
-/*  Top bar  */
+/* Top navigation bar */
 .topbar {
     position: sticky;
     top: 0;
@@ -329,7 +329,7 @@ a { text-decoration: none; }
 .dropdown-item { border-radius: 10px; font-weight: 500; }
 .dropdown-item:active { background: var(--brand-1); }
 
-/*  Mobile bottom tab bar  */
+/* Mobile bottom nav */
 .bottom-nav {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 1030;
     display: flex; justify-content: space-around; align-items: center;
@@ -352,7 +352,7 @@ a { text-decoration: none; }
     .topbar-inner { padding: .5rem .85rem; }
 }
 
-/*  Avatars & rings  */
+/* Avatar sizes and rings */
 .avatar {
     width: 44px; height: 44px;
     border-radius: 50%;
@@ -376,7 +376,7 @@ a { text-decoration: none; }
 .avatar-ring .avatar { border: 2.5px solid #fff; }
 .avatar-ring.plain { background: var(--line); }
 
-/*  Left / right sidebars  */
+/* Sticky left and right columns */
 .side-sticky { position: sticky; top: 84px; }
 .mini-profile { overflow: hidden; text-align: center; }
 .mini-profile .cover { height: 64px; background: var(--grad); }
@@ -402,7 +402,7 @@ a { text-decoration: none; }
 .person-row:hover .person-name { color: var(--brand-1); }
 .person-name { font-weight: 700; font-size: .93rem; line-height: 1.2; }
 
-/* ---------- Discover (stories-style) row ---------- */
+/* Horizontal suggested-people row (mobile) */
 .discover-minimal {
     padding: 0.25rem 0;
     overflow-x: auto;
@@ -450,14 +450,14 @@ a { text-decoration: none; }
     text-align: center;
 }
 
-/* Legacy discover support */
+/* Older discover-row classes still used in some views */
 .discover { display: flex; gap: .9rem; overflow-x: auto; padding: .75rem 1rem; scrollbar-width: none; }
 .discover::-webkit-scrollbar { display: none; }
 .discover-item { text-align: center; width: 64px; flex-shrink: 0; color: var(--ink); }
 .discover-item .avatar { width: 50px; height: 50px; }
 .discover-item small { display: block; margin-top: .3rem; font-size: .72rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/*  Composer (Minimalist)  */
+/* New-post composer */
 .composer-minimal {
     border: 1px solid var(--line);
     border-radius: var(--radius);
@@ -503,7 +503,7 @@ a { text-decoration: none; }
     color: var(--brand-2);
 }
 
-/*  Minimalist Posts  */
+/* Post cards, likes, comments */
 .post {
     margin-bottom: 1.1rem;
     border: 1px solid var(--line);
@@ -774,7 +774,7 @@ a { text-decoration: none; }
     color: var(--brand-2);
 }
 
-/* ---------- Profile ---------- */
+/* Profile page */
 .profile-card { overflow: hidden; }
 .profile-cover { height: 170px; background: var(--grad); position: relative; }
 .profile-cover.c1 { background: linear-gradient(135deg, #0ea5e9, #7c3aed 60%, #ec4899); }
@@ -797,7 +797,7 @@ a { text-decoration: none; }
 .stat-pill strong { color: var(--ink); }
 .section-title { font-weight: 800; letter-spacing: -.02em; }
 
-/*  Search, lists, pills, pagination  */
+/* Search results, pills, pagination */
 .nav-pills { --bs-nav-pills-link-active-bg: var(--brand-1); gap: .35rem; }
 .nav-pills .nav-link { border-radius: 999px; font-weight: 600; color: var(--muted); background: var(--surface); border: 1px solid var(--line); }
 .nav-pills .nav-link.active { color: #fff; background: var(--grad); border-color: transparent; }
@@ -806,7 +806,7 @@ a { text-decoration: none; }
 .pagination { --bs-pagination-active-bg: var(--brand-1); --bs-pagination-active-border-color: var(--brand-1); --bs-pagination-color: var(--brand-1); --bs-pagination-border-color: var(--line); gap: .3rem; }
 .page-link { border-radius: 12px !important; font-weight: 600; }
 
-/*  Auth screens  */
+/* Login and register */
 .auth-wrap { max-width: 980px; margin: 1rem auto 0; }
 .auth-card { display: grid; grid-template-columns: 1.05fr 1fr; overflow: hidden; border-radius: 26px; }
 .auth-hero {
@@ -834,11 +834,9 @@ a { text-decoration: none; }
 .auth-form { padding: 2.6rem 2.4rem; background: var(--surface); }
 .demo-chip { display: inline-block; background: var(--chip); border-radius: 999px; padding: .2rem .7rem; font-size: .8rem; font-weight: 600; color: var(--brand-1); margin: .15rem; }
 
-/*  Facebook UI Styles  */
-.fb-layout { /* Let Bootstrap grid handle layout instead of conflicting CSS Grid */ }
 .fb-card { background: #ffffff; border-radius: 8px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); margin-bottom: 1rem; border: none; }
 
-/*  Unified Modern App Sidebar & Layout  */
+/* Feed sidebar and center column */
 .feed-center-col {
     max-width: 660px;
     margin: 0 auto;
@@ -1134,10 +1132,10 @@ a.sidebar-link {
     * { animation: none !important; transition: none !important; }
 }
 
-/* Utilities */
+/* Shared helpers */
 .min-w-0 { min-width: 0; }
 
-/* Page Loader */
+/* Top loading bar during page change */
 .page-loader-bar {
     position: fixed;
     top: 0;
@@ -1157,9 +1155,7 @@ a.sidebar-link {
     transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
-/* 
-   Modal Theater Sidebar & GUI Alert Modals
-*/
+/* Photo viewer sidebar and alert/confirm dialogs */
 .modal-sidebar-panel {
     background: #ffffff;
 }
@@ -1189,9 +1185,7 @@ a.sidebar-link {
     color: #3b82f6;
 }
 
-/* ==========================================================================
-   Dark Mode Theme (Modern Deep Obsidian Palette with High-Contrast Legibility)
-   ========================================================================== */
+/* Dark theme */
 [data-theme="dark"] {
     --bg: #0b0a14;
     --surface: #161426;
@@ -1203,7 +1197,7 @@ a.sidebar-link {
     --brand-1-soft: rgba(157, 111, 255, 0.18);
     --shadow: 0 1px 3px rgba(0, 0, 0, .45), 0 8px 24px rgba(0, 0, 0, .55);
 
-    /* Bootstrap 5.3 Design Tokens Overrides */
+    /* Bootstrap tokens in dark mode */
     --bs-body-bg: var(--bg);
     --bs-body-color: var(--ink);
     --bs-border-color: var(--line);
@@ -1223,7 +1217,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
-/* Base Body & Headings in Dark Mode */
+/* Body and headings in dark mode */
 [data-theme="dark"] body {
     background: var(--bg) !important;
     color: var(--ink) !important;
@@ -1244,7 +1238,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #ffffff !important;
 }
 
-/* Global Text Utility Overrides */
+/* Text colors in dark mode */
 [data-theme="dark"] .text-muted,
 [data-theme="dark"] .text-secondary {
     color: #a6a1c7 !important;
@@ -1269,7 +1263,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #38bdf8 !important;
 }
 
-/* Links */
+/* Links in dark mode */
 [data-theme="dark"] a {
     color: #a78bfa;
 }
@@ -1277,7 +1271,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #c4b5fd;
 }
 
-/* Topbar Navigation */
+/* Top bar in dark mode */
 [data-theme="dark"] .topbar {
     background: rgba(22, 20, 38, 0.92) !important;
     border-bottom: 1px solid var(--line) !important;
@@ -1318,7 +1312,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #ffffff !important;
 }
 
-/* Dropdown Menus */
+/* Dropdowns in dark mode */
 [data-theme="dark"] .dropdown-menu {
     background: var(--surface) !important;
     border: 1px solid var(--line) !important;
@@ -1343,7 +1337,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     border-color: var(--line) !important;
 }
 
-/* Cards & FB Card */
+/* Cards in dark mode */
 [data-theme="dark"] .card,
 [data-theme="dark"] .fb-card {
     background: var(--surface) !important;
@@ -1352,7 +1346,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     box-shadow: var(--shadow) !important;
 }
 
-/* Left Modern Sidebar */
+/* Left sidebar in dark mode */
 [data-theme="dark"] .sidebar-card {
     background: var(--surface) !important;
     border: 1px solid var(--line) !important;
@@ -1426,7 +1420,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #ffffff !important;
 }
 
-/* Right Discover People Column */
+/* Suggested-people column in dark mode */
 [data-theme="dark"] .person-suggest-card {
     background: var(--surface) !important;
     border: 1px solid var(--line) !important;
@@ -1456,7 +1450,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #d1cde5 !important;
 }
 
-/* Post Composer */
+/* Composer in dark mode */
 [data-theme="dark"] .fb-composer {
     background: var(--surface) !important;
     border-color: var(--line) !important;
@@ -1490,7 +1484,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #34d399 !important;
 }
 
-/* Post Card Elements */
+/* Post cards in dark mode */
 [data-theme="dark"] .fb-post-header {
     border-bottom-color: var(--line);
 }
@@ -1539,7 +1533,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #ffffff !important;
 }
 
-/* Comments Section */
+/* Comments in dark mode */
 [data-theme="dark"] .fb-comments-section {
     background: var(--surface) !important;
 }
@@ -1589,7 +1583,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #c4b5fd !important;
 }
 
-/* Form Controls & Inputs */
+/* Inputs in dark mode */
 [data-theme="dark"] .form-control,
 [data-theme="dark"] .form-select {
     background-color: var(--chip) !important;
@@ -1647,7 +1641,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #34d399 !important;
 }
 
-/* Buttons */
+/* Buttons in dark mode */
 [data-theme="dark"] .btn-outline-secondary {
     --bs-btn-color: #c4bfe3;
     --bs-btn-border-color: var(--line);
@@ -1672,7 +1666,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #ffffff !important;
 }
 
-/* Modals & Image Theater */
+/* Modals and photo viewer in dark mode */
 [data-theme="dark"] .modal-content {
     background-color: var(--surface) !important;
     border-color: var(--line) !important;
@@ -1701,7 +1695,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: var(--ink) !important;
 }
 
-/* Search & List Groups */
+/* Search lists in dark mode */
 [data-theme="dark"] .list-group-item {
     background: var(--surface) !important;
     border-color: var(--line) !important;
@@ -1719,7 +1713,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #d1cde5 !important;
 }
 
-/* Nav Pills */
+/* Nav pills in dark mode */
 [data-theme="dark"] .nav-pills .nav-link {
     background: var(--surface);
     border-color: var(--line);
@@ -1735,7 +1729,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     border-color: transparent !important;
 }
 
-/* Pagination */
+/* Pagination in dark mode */
 [data-theme="dark"] .page-link {
     background-color: var(--chip) !important;
     border-color: var(--line) !important;
@@ -1757,7 +1751,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #686383 !important;
 }
 
-/* Flash Toast Notifications in Dark Mode */
+/* Toasts in dark mode */
 [data-theme="dark"] .flash-toast-success {
     background: #064e3b !important;
     color: #d1fae5 !important;
@@ -1793,7 +1787,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #60a5fa !important;
 }
 
-/* Profile Specifics */
+/* Profile page in dark mode */
 [data-theme="dark"] .stat-pill {
     background: var(--chip) !important;
     border: 1px solid var(--line) !important;
@@ -1814,7 +1808,7 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     border-color: var(--line) !important;
 }
 
-/* Mobile Bottom Navigation */
+/* Bottom nav in dark mode */
 [data-theme="dark"] .bottom-nav {
     background: rgba(22, 20, 38, 0.95) !important;
     border-top-color: var(--line) !important;
@@ -1826,12 +1820,12 @@ body, .topbar, .card, .fb-card, .form-control, .form-select, .dropdown-menu {
     color: #c4b5fd !important;
 }
 
-/* Auth Pages */
+/* Login/register in dark mode */
 [data-theme="dark"] .auth-form {
     background: var(--surface) !important;
 }
 
-/* Banner Drag  */
+/* Cover drag preview in dark mode */
 .cover-reposition-box {
     position: relative;
     user-select: none;

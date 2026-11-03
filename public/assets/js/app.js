@@ -1,20 +1,12 @@
-/**
- * LyfeFeed front-end behaviour (vanilla JS):
- *  1. Client-side form validation (Bootstrap styles)
- *  2. Confirm dialogs for destructive actions
- *  3. AJAX like / unlike (heart button) + double-tap a photo to like
- *  4. Image preview + size/type check before upload
- *  5. Focus the composer when arriving via #composer
- *
- * Client-side checks are a convenience only; the server validates everything again.
- */
+// Client UI: form checks, likes, comments, toasts, theme, and cover drag.
+// Server still validates every request.
 (function () {
     'use strict';
 
     var MAX_BYTES = 2 * 1024 * 1024;
     var ALLOWED = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
-    /* 1. Form validation ------------------------------------------------ */
+    // Required fields and password confirmation before submit.
     document.querySelectorAll('form.needs-validation').forEach(function (form) {
         form.addEventListener('submit', function (event) {
             var confirmField = form.querySelector('[data-match]');
@@ -22,7 +14,7 @@
                 var original = form.querySelector('#' + confirmField.dataset.match);
                 confirmField.setCustomValidity(original && original.value !== confirmField.value ? 'Passwords do not match' : '');
             }
-            // Whitespace-only text is not allowed in required text fields
+            // Treat spaces-only as empty.
             form.querySelectorAll('input[type="text"][required], textarea[required]').forEach(function (field) {
                 field.setCustomValidity(field.value.trim() === '' ? 'Required' : '');
             });
@@ -35,7 +27,7 @@
         });
     });
 
-    /* --- GUI Alert, Confirm & Toast Helpers --- */
+    // Alert, confirm, and toast dialogs used instead of window.alert.
     window.showAppAlert = function(message, title, type) {
         title = title || 'Notice';
         type = type || 'warning';
@@ -168,7 +160,7 @@
         toast.addEventListener('mouseleave', function() { timer = setTimeout(dismissToast, 1500); });
     };
 
-    /* 2. Confirm before delete (GUI modal) ------------------------------- */
+    // Confirm before submitting forms with data-confirm (deletes).
     document.querySelectorAll('form[data-confirm]').forEach(function (form) {
         form.addEventListener('submit', function (event) {
             event.preventDefault();
@@ -179,7 +171,7 @@
         });
     });
 
-    /* 3. AJAX like toggle ----------------------------------------------- */
+    // Like/unlike without reloading the page.
     function setLikedState(button, liked) {
         var icon = button.querySelector('i');
         button.classList.toggle('liked', liked);
@@ -187,7 +179,7 @@
         icon.className = 'bi ' + (liked ? 'bi-heart-fill' : 'bi-heart') + ' me-1 fs-5';
         if (liked) {
             button.classList.remove('pop');
-            void button.offsetWidth;          // restart the CSS animation
+            void button.offsetWidth; // replay the heart pop animation
             button.classList.add('pop');
         }
     }
@@ -215,13 +207,13 @@
                     if (wordEl) { wordEl.textContent = data.count === 1 ? 'like' : 'likes'; }
                 })
                 .catch(function () {
-                    form.submit();   // graceful fallback: normal form post
+                    form.submit(); // if AJAX fails, submit the form normally
                 })
                 .finally(function () { button.disabled = false; });
         });
     });
 
-    // Double-click / double-tap a photo to like it
+    // Double-click a post photo to like it.
     document.querySelectorAll('[data-like-target]').forEach(function (media) {
         media.addEventListener('dblclick', function () {
             var card = media.closest('.post, .fb-post');
@@ -233,12 +225,12 @@
             burst.classList.add('go');
 
             if (!button.classList.contains('liked')) {
-                button.click();      // submits the like form via the AJAX handler above
+                button.click(); // uses the AJAX like handler above
             }
         });
     });
 
-    /* Share post button */
+    // Copy the post URL to the clipboard.
     document.querySelectorAll('.share-post-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -253,7 +245,7 @@
         });
     });
 
-    /* Image Lightbox / Zoom Facebook Mode */
+    // Open the photo in a full-screen viewer with the post cloned beside it.
     document.querySelectorAll('.post-img-zoom').forEach(function(img) {
         img.addEventListener('click', function(e) {
             var modal = document.getElementById('imageModal');
@@ -261,34 +253,29 @@
             var sidebar = document.getElementById('modalSidebar');
             
             if (modal && modalImg && sidebar) {
-                // Set image
                 modalImg.src = img.src;
-                
-                // Clone the parent post
+
                 var postArticle = img.closest('.fb-post');
                 if (postArticle) {
                     var clone = postArticle.cloneNode(true);
-                    // Remove the image from the cloned post so it doesn't show twice
+                    // Drop the photo from the clone so it is not shown twice.
                     var cloneMedia = clone.querySelector('.fb-post-media');
                     if (cloneMedia) cloneMedia.remove();
-                    
-                    // Style the cloned card to fit seamlessly in the sidebar
+
                     clone.classList.remove('mb-3', 'shadow-sm', 'fb-post');
                     clone.style.border = 'none';
                     clone.style.boxShadow = 'none';
                     clone.style.borderRadius = '0';
-                    
-                    // Expand comments to show them
+
                     var commentsCollapse = clone.querySelector('.collapse');
                     if (commentsCollapse) {
                         commentsCollapse.classList.add('show');
                     }
-                    
-                    // Inject clone
+
                     sidebar.innerHTML = '';
                     sidebar.appendChild(clone);
-                    
-                    // Re-bind like form in the clone
+
+                    // Like buttons on the clone need their own AJAX handlers.
                     clone.querySelectorAll('form.like-form').forEach(function (form) {
                         form.addEventListener('submit', function (event) {
                             event.preventDefault();
@@ -314,7 +301,7 @@
         });
     });
 
-    /* 4. Image preview & validation ------------------------------------- */
+    // Show a local preview and reject files over 2 MB or the wrong type.
     document.querySelectorAll('input[type="file"]').forEach(function (input) {
         input.addEventListener('change', function () {
             var file = input.files[0];
@@ -360,13 +347,13 @@
         });
     }
 
-    /* 5. Jump to composer ----------------------------------------------- */
+    // Focus the composer when the URL hash is #composer.
     if (window.location.hash === '#composer') {
         var box = document.querySelector('#composer textarea');
         if (box) { box.focus({ preventScroll: false }); }
     }
 
-    /* 6. Flash Toasts: Animated auto-dismiss ---------------------------- */
+    // Auto-hide flash toasts; pause the timer while hovered.
     document.querySelectorAll('.flash-toast[data-auto-dismiss]').forEach(function (toast) {
         var duration = parseInt(toast.dataset.autoDismiss, 10) || 3500;
         var remaining = duration;
@@ -417,7 +404,7 @@
         }
     });
 
-    /* 7. Real-time post relative timestamp updates ---------------------- */
+    // Refresh "time ago" labels every 30 seconds.
     function formatTimeAgo(dateStr) {
         var timestamp = new Date(dateStr).getTime();
         if (isNaN(timestamp)) return null;
@@ -446,9 +433,9 @@
     updateRelativeTimes();
     setInterval(updateRelativeTimes, 30000);
 
-    /* 8. AJAX Comment Submit (no page jump) ----------------------------- */
+    // Submit a comment with AJAX and append it without reloading.
 
-    /** Build a comment DOM node safely (no innerHTML, no XSS risk). */
+    // Build a comment node with textContent so HTML in the comment is not executed.
     function buildCommentNode(c, baseUrl) {
         var avatarSrc = c.profile_image
             ? baseUrl + '/assets/uploads/' + encodeURIComponent(c.profile_image)
@@ -471,11 +458,11 @@
         var authorLink = document.createElement('a');
         authorLink.className = 'fb-comment-author';
         authorLink.href = '#';
-        authorLink.textContent = c.full_name;  // textContent = safe, no XSS
+        authorLink.textContent = c.full_name;
 
         var body = document.createElement('div');
         body.className = 'fb-comment-body';
-        body.textContent = c.content;           // textContent = safe, no XSS
+        body.textContent = c.content;
 
         bubble.appendChild(authorLink);
         bubble.appendChild(body);
@@ -518,14 +505,11 @@
                 var c = data.comment;
                 var baseUrl = document.body.getAttribute('data-base-url') || '';
 
-                // Build comment DOM safely (no innerHTML)
                 var commentNode = buildCommentNode(c, baseUrl);
 
-                // Insert into comment list
                 var postCard = form.closest('.fb-post');
                 var list = postCard ? postCard.querySelector('.fb-comments-list') : null;
                 if (!list) {
-                    // Create the list if no comments yet
                     var section = postCard ? postCard.querySelector('.fb-comments-section') : null;
                     if (section) {
                         list = document.createElement('div');
@@ -535,29 +519,25 @@
                 }
                 if (list) {
                     list.appendChild(commentNode);
-                    // Scroll the new comment into view
                     commentNode.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
 
-                // Update comment count
                 var countEl = postCard ? postCard.querySelector('.comment-count') : null;
                 if (countEl) {
                     var n = (parseInt(countEl.textContent) || 0) + 1;
                     countEl.textContent = n + ' ' + (n === 1 ? 'comment' : 'comments');
                 }
 
-                // Update CSRF token for next submission (token rotated server-side)
+                // Server may rotate CSRF; copy the new token from the page.
                 var csrfMeta = document.querySelector('meta[name="csrf-token"]');
                 if (csrfMeta) {
                     var csrfInput = form.querySelector('input[name="csrf"]');
                     if (csrfInput) csrfInput.value = csrfMeta.getAttribute('content');
                 }
 
-                // Clear input
                 if (input) input.value = '';
             })
             .catch(function() {
-                // Fallback: normal submit
                 form.submit();
             })
             .finally(function() {
@@ -566,12 +546,12 @@
         });
     });
 
-    /* 9. Page Transition Loader ----------------------------------------- */
+    // Thin loading bar at the top of the page.
     var loader = document.createElement('div');
     loader.className = 'page-loader-bar';
     document.body.appendChild(loader);
 
-    /* 10. Dark Mode Theme Toggle --------------------------------------- */
+    // Dark/light theme: save in localStorage and update toggle icons.
     function getTheme() {
         return document.documentElement.getAttribute('data-theme') || localStorage.getItem('theme') || 'light';
     }
@@ -609,7 +589,7 @@
 
     updateThemeUI(getTheme());
 
-    /* 11. Banner Drag to Reposition ------------------------------------ */
+    // Drag or slide the profile cover to set its vertical crop.
     var coverBox = document.getElementById('coverRepositionContainer');
     var coverImg = document.getElementById('coverPreview');
     var coverSlider = document.getElementById('coverPositionSlider');

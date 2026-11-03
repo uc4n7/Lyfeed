@@ -1,7 +1,5 @@
 <?php
-/**
- * CommentModel - data access for the `comments` table. Database logic only.
- */
+// Queries for the comments table.
 class CommentModel
 {
     private PDO $db;
@@ -22,7 +20,7 @@ class CommentModel
         return $stmt->fetch() ?: null;
     }
 
-    /** Comments for a set of posts, oldest first. Returned grouped by post_id. */
+    // Comments for these posts, oldest first, grouped by post_id.
     public function forPosts(array $postIds): array
     {
         if (!$postIds) {
@@ -55,14 +53,14 @@ class CommentModel
         return (int)$this->db->lastInsertId();
     }
 
-    /** Defense-in-depth: only the owning user can update their own comment. */
+    // Update only if $userId owns the comment.
     public function update(int $id, int $userId, string $content): bool
     {
         $stmt = $this->db->prepare('UPDATE comments SET content = :content WHERE id = :id AND user_id = :uid');
         return $stmt->execute([':content' => $content, ':id' => $id, ':uid' => $userId]);
     }
 
-    /** Defense-in-depth: only the owning user can delete their own comment. */
+    // Delete only if $userId owns the comment.
     public function delete(int $id, int $userId): bool
     {
         $stmt = $this->db->prepare('DELETE FROM comments WHERE id = :id AND user_id = :uid');

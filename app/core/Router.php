@@ -1,12 +1,8 @@
 <?php
-/**
- * Minimal front-controller router.
- * URL format:  index.php?route=controller/action   (e.g. ?route=post/create)
- * Only whitelisted controllers/actions can be reached.
- */
+// Maps ?route=controller/action to a controller method. Unknown routes get 404.
 class Router
 {
-    /** controller => allowed actions */
+    // Allowed controller names and their actions.
     private const ROUTES = [
         'auth'    => ['login', 'register', 'logout'],
         'feed'    => ['index'],

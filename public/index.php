@@ -1,12 +1,10 @@
 <?php
-/**
- * Front controller. Every request enters here.
- */
+// Entry point: start the session, set headers, then route the request.
 declare(strict_types=1);
 
 define('BASE_PATH', dirname(__DIR__));
 
-// Secure session settings
+// Cookie settings: HTTP-only, Lax CSRF, Secure only on HTTPS
 $isHttps = !empty($_SERVER['HTTPS'])
         || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
 session_set_cookie_params([
@@ -18,7 +16,7 @@ session_set_cookie_params([
 ]);
 session_start();
 
-// Basic security headers
+// Clickjacking, MIME sniffing, referrer, and CSP headers
 header('X-Frame-Options: SAMEORIGIN');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: strict-origin-when-cross-origin');

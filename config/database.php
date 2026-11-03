@@ -1,8 +1,5 @@
 <?php
-/**
- * Database + application configuration.
- * Edit these values to match your local MySQL setup (XAMPP / WAMP / Laragon defaults shown).
- */
+// MySQL connection and app settings (XAMPP defaults).
 if (!defined('BASE_PATH')) {
     http_response_code(403);
     exit('Direct access denied.');
@@ -20,8 +17,8 @@ return [
     'app' => [
         'name'            => 'LyfeFeed',
         'timezone'        => 'Asia/Manila',
-        'upload_max_size' => 2 * 1024 * 1024,           // 2 MB
+        'upload_max_size' => 2 * 1024 * 1024, // 2 MB
         'allowed_types'   => ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
-        'per_page'        => 10,                          // posts per feed page
+        'per_page'        => 10, // posts per feed page
     ],
 ];
