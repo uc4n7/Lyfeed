@@ -14,8 +14,9 @@ class LikeController extends Controller
         }
         $this->requirePost();
 
+        $uid    = current_user_id();
         $postId = (int)($_POST['post_id'] ?? 0);
-        if (!(new PostModel())->find($postId)) {
+        if (!(new PostModel())->find($postId, $uid)) {
             if ($isAjax) {
                 $this->json(['ok' => false, 'error' => 'Post not found.'], 404);
             }
@@ -23,7 +24,6 @@ class LikeController extends Controller
         }
 
         $likes = new LikeModel();
-        $uid   = current_user_id();
 
         if ($likes->hasLiked($postId, $uid)) {
             $likes->remove($postId, $uid);
@@ -37,7 +37,8 @@ class LikeController extends Controller
             $this->json(['ok' => true, 'liked' => $liked, 'count' => $likes->count($postId)]);
         }
 
-        header('Location: ' . url('feed/index') . '#post-' . $postId);
+        $redirect = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : url('feed/index') . '#post-' . $postId;
+        header('Location: ' . $redirect);
         exit;
     }
 

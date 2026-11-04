@@ -19,8 +19,12 @@ class PostModel
         $this->db = Database::connection();
     }
 
-    public function find(int $id, int $viewerId = 0): ?array
+    public function find(int $id, ?int $viewerId = null): ?array
     {
+        if ($viewerId === null) {
+            $viewerId = function_exists('current_user_id') ? (current_user_id() ?? 0) : 0;
+        }
+
         if ($viewerId > 0) {
             $stmt = $this->db->prepare(
                 self::BASE_SELECT . ' WHERE p.id = :id
