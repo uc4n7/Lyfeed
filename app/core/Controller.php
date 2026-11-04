@@ -24,7 +24,7 @@ abstract class Controller
         clear_old();
     }
 
-   
+    // Send guests to the login page.
     protected function requireLogin(): void
     {
         if (!is_logged_in()) {
