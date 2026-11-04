@@ -1,5 +1,7 @@
 <?php
-// MySQL connection and app settings (XAMPP defaults).
+/*
+ * Database + application configuration.
+ */
 if (!defined('BASE_PATH')) {
     http_response_code(403);
     exit('Direct access denied.');
@@ -17,8 +19,8 @@ return [
     'app' => [
         'name'            => 'LyfeFeed',
         'timezone'        => 'Asia/Manila',
-        'upload_max_size' => 2 * 1024 * 1024, // 2 MB
+        'upload_max_size' => 2 * 1024 * 1024,           // 2 MB
         'allowed_types'   => ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
-        'per_page'        => 10, // posts per feed page
+        'per_page'        => 10,                          // posts per feed page
     ],
 ];

@@ -6,7 +6,7 @@
             <ul class="perks">
                 <li><i class="bi bi-person-heart"></i>Your own profile page</li>
                 <li><i class="bi bi-chat-dots-fill"></i>Join the conversation</li>
-                <li><i class="bi bi-shield-check"></i>Passwords stored securely</li>
+                <li><i class="bi bi-shield-check"></i>Privacy are safe</li>
             </ul>
         </section>
 
