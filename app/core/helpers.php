@@ -1,5 +1,4 @@
 <?php
-// Shared helpers for escaping, URLs, sessions, CSRF, rate limits, and uploads.
 
 // Escape text before printing it in a view.
 function e($value): string

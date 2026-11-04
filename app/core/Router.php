@@ -9,6 +9,7 @@ class Router
         'post'    => ['store', 'edit', 'update', 'delete'],
         'comment' => ['store', 'edit', 'update', 'delete'],
         'like'    => ['toggle'],
+        'follow'  => ['toggle'],
         'profile' => ['show', 'edit', 'update'],
         'search'  => ['index'],
     ];

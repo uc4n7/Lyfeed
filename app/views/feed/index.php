@@ -32,12 +32,6 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?= e(url('search/index', ['type' => 'users'])) ?>" class="sidebar-link">
-                                <span class="sidebar-icon icon-friends"><i class="bi bi-people-fill"></i></span>
-                                <span class="sidebar-text">Friends</span>
-                            </a>
-                        </li>
-                        <li>
                             <a href="<?= e(url('profile/show', ['id' => $me['id']])) ?>" class="sidebar-link">
                                 <span class="sidebar-icon icon-profile"><i class="bi bi-person-badge-fill"></i></span>
                                 <span class="sidebar-text">My Profile</span>
@@ -114,13 +108,44 @@
 
                     <!-- Photo attach and Post button -->
                     <div class="d-flex align-items-center justify-content-between pt-1">
-                        <div class="d-flex gap-2">
-                            <label class="fb-composer-btn text-success" title="Add a photo or video">
+                        <div class="d-flex align-items-center gap-2">
+                            <label class="fb-composer-btn text-success" title="Add a photo">
                                 <i class="bi bi-images fs-5"></i>
                                 <span class="d-none d-sm-inline">Photo</span>
                                 <input type="file" name="image" id="composerFileInput" class="d-none"
                                        accept="image/jpeg,image/png,image/gif,image/webp" data-preview="#postPreview">
                             </label>
+
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light border rounded-pill dropdown-toggle d-flex align-items-center gap-1 py-1 px-2 text-muted fw-semibold"
+                                        type="button" id="privacyDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 0.8rem;">
+                                    <i class="bi bi-globe-americas text-primary" id="privacyCurrentIcon"></i>
+                                    <span id="privacyCurrentLabel">Public</span>
+                                </button>
+                                <input type="hidden" name="visibility" id="composerVisibility" value="public">
+                                <ul class="dropdown-menu shadow-sm" aria-labelledby="privacyDropdownBtn" style="font-size: 0.85rem;">
+                                    <li>
+                                        <button class="dropdown-item d-flex align-items-center gap-2 py-2" type="button"
+                                                onclick="document.getElementById('composerVisibility').value='public'; document.getElementById('privacyCurrentIcon').className='bi bi-globe-americas text-primary'; document.getElementById('privacyCurrentLabel').textContent='Public';">
+                                            <i class="bi bi-globe-americas fs-5 text-primary"></i>
+                                            <div>
+                                                <div class="fw-bold">Public</div>
+                                                <div class="text-muted small" style="font-size: 0.75rem;">Anyone on LyfeFeed can see</div>
+                                            </div>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="dropdown-item d-flex align-items-center gap-2 py-2" type="button"
+                                                onclick="document.getElementById('composerVisibility').value='private'; document.getElementById('privacyCurrentIcon').className='bi bi-lock-fill text-danger'; document.getElementById('privacyCurrentLabel').textContent='Followers only';">
+                                            <i class="bi bi-lock-fill fs-5 text-danger"></i>
+                                            <div>
+                                                <div class="fw-bold">Followers only (Private)</div>
+                                                <div class="text-muted small" style="font-size: 0.75rem;">Only your followers can see</div>
+                                            </div>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary fb-submit-btn px-4 rounded-pill fw-bold">
                             Post

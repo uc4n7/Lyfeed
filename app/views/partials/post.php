@@ -19,7 +19,13 @@ $likeCount    = (int)$post['like_count'];
             <div class="fb-post-meta">
                 <time class="js-time-ago" datetime="<?= date('c', strtotime($post['created_at'])) ?>" title="<?= date('M j, Y g:i A', strtotime($post['created_at'])) ?>"><?= e(time_ago($post['created_at'])) ?></time>
                 <span class="fb-meta-dot">&middot;</span>
-                <i class="bi bi-globe-americas fb-globe-icon" title="Public"></i>
+                <?php if (($post['visibility'] ?? 'public') === 'private'): ?>
+                    <span class="badge bg-secondary-subtle text-secondary py-1 px-2 d-inline-flex align-items-center gap-1" title="Followers only (Private)" style="font-size: 0.72rem; font-weight: 600;">
+                        <i class="bi bi-lock-fill text-danger"></i> Followers only
+                    </span>
+                <?php else: ?>
+                    <i class="bi bi-globe-americas fb-globe-icon" title="Public"></i>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -111,7 +117,7 @@ $likeCount    = (int)$post['like_count'];
             <form action="<?= e(url('comment/store')) ?>" method="post" class="fb-comment-form needs-validation" novalidate>
                 <?= csrf_field() ?>
                 <input type="hidden" name="post_id" value="<?= (int)$post['id'] ?>">
-                <img src="<?= e(avatar_url($me['profile_image'] ?? null)) ?>" alt="" class="avatar avatar-xs flex-shrink-0">
+                <img src="<?= e(avatar_url($me['profile_image'] ?? ($navUser['profile_image'] ?? null))) ?>" alt="" class="avatar avatar-xs flex-shrink-0">
                 <div class="fb-comment-input-box flex-grow-1">
                     <input type="text" name="content" placeholder="Write a comment..." maxlength="1000" required aria-label="Write a comment" autocomplete="off">
                     <button type="submit" aria-label="Send comment" title="Send comment"><i class="bi bi-send-fill"></i></button>

@@ -28,7 +28,7 @@ require_once BASE_PATH . '/app/core/Database.php';
 require_once BASE_PATH . '/app/core/Controller.php';
 require_once BASE_PATH . '/app/core/Router.php';
 
-foreach (['UserModel', 'PostModel', 'CommentModel', 'LikeModel'] as $model) {
+foreach (['UserModel', 'PostModel', 'CommentModel', 'LikeModel', 'FollowModel'] as $model) {
     require_once BASE_PATH . "/app/models/{$model}.php";
 }
 

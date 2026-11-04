@@ -12,7 +12,7 @@ class FeedController extends Controller
 
         $perPage = (int)config('app.per_page', 10);
         $page    = max(1, (int)($_GET['page'] ?? 1));
-        $total   = $posts->countAll();
+        $total   = $posts->countAll(current_user_id());
         $pages   = max(1, (int)ceil($total / $perPage));
         $page    = min($page, $pages);
 

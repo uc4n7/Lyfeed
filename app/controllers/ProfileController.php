@@ -19,17 +19,27 @@ class ProfileController extends Controller
             $this->notFound();
         }
 
-        $posts    = new PostModel();
-        $comments = new CommentModel();
-        $list     = $posts->byUser($id, current_user_id());
+        $posts     = new PostModel();
+        $comments  = new CommentModel();
+        $follows   = new FollowModel();
+        $viewerId  = current_user_id();
+        $list      = $posts->byUser($id, $viewerId);
+
+        $activeTab = in_array($_GET['tab'] ?? '', ['posts', 'followers', 'following'], true) ? $_GET['tab'] : 'posts';
 
         $this->view('profile/show', [
-            'title'     => $user['full_name'],
-            'profile'   => $user,
-            'isOwner'   => $id === current_user_id(),
-            'postCount' => $posts->countByUser($id),
-            'posts'     => $list,
-            'comments'  => $comments->forPosts(array_column($list, 'id')),
+            'title'          => $user['full_name'],
+            'profile'        => $user,
+            'isOwner'        => $id === $viewerId,
+            'postCount'      => $posts->countByUser($id, $viewerId),
+            'posts'          => $list,
+            'comments'       => $comments->forPosts(array_column($list, 'id')),
+            'followerCount'  => $follows->countFollowers($id),
+            'followingCount' => $follows->countFollowing($id),
+            'followers'      => $follows->getFollowers($id, $viewerId),
+            'following'      => $follows->getFollowing($id, $viewerId),
+            'isFollowing'    => $follows->isFollowing($viewerId, $id),
+            'activeTab'      => $activeTab,
         ]);
     }
 

@@ -14,11 +14,12 @@ class CommentController extends Controller
         $this->requireLogin();
         $this->requirePost();
 
-        $isAjax  = !empty($_SERVER['HTTP_X_REQUESTED_WITH']);
-        $postId  = (int)($_POST['post_id'] ?? 0);
-        $content = clean($_POST['content'] ?? '');
+        $isAjax   = !empty($_SERVER['HTTP_X_REQUESTED_WITH']);
+        $postId   = (int)($_POST['post_id'] ?? 0);
+        $parentId = !empty($_POST['parent_id']) ? (int)$_POST['parent_id'] : null;
+        $content  = clean($_POST['content'] ?? '');
 
-        if (!(new PostModel())->find($postId)) {
+        if (!(new PostModel())->find($postId, current_user_id())) {
             if ($isAjax) {
                 header('Content-Type: application/json');
                 http_response_code(404);
@@ -27,6 +28,14 @@ class CommentController extends Controller
             }
             $this->notFound();
         }
+
+        if ($parentId !== null) {
+            $parent = $this->comments->find($parentId);
+            if (!$parent || (int)$parent['post_id'] !== $postId) {
+                $parentId = null;
+            }
+        }
+
         if ($content === '' || mb_strlen($content) > 1000) {
             if ($isAjax) {
                 header('Content-Type: application/json');
@@ -38,15 +47,16 @@ class CommentController extends Controller
             redirect('feed/index');
         }
 
-        $id = $this->comments->create($postId, current_user_id(), $content);
+        $id = $this->comments->create($postId, current_user_id(), $content, $parentId);
 
         // AJAX: return the new comment as JSON so the feed does not reload.
         if ($isAjax) {
             $comment = $this->comments->find($id);
             // Escape fields the client will insert into the page.
-            $comment['content']   = e($comment['content']);
-            $comment['full_name'] = e($comment['full_name']);
-            $comment['username']  = e($comment['username']);
+            $comment['content']         = e($comment['content']);
+            $comment['full_name']       = e($comment['full_name']);
+            $comment['username']        = e($comment['username']);
+            $comment['parent_username'] = e($comment['parent_username'] ?? '');
             header('Content-Type: application/json');
             echo json_encode(['ok' => true, 'comment' => $comment]);
             exit;

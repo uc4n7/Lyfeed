@@ -460,6 +460,14 @@
         authorLink.href = '#';
         authorLink.textContent = c.full_name;
 
+        if (c.parent_username) {
+            var mention = document.createElement('span');
+            mention.className = 'badge bg-primary-subtle text-primary ms-1';
+            mention.style.fontSize = '0.7rem';
+            mention.textContent = '@' + c.parent_username;
+            authorLink.after(mention);
+        }
+
         var body = document.createElement('div');
         body.className = 'fb-comment-body';
         body.textContent = c.content;
@@ -483,30 +491,47 @@
         return wrapper;
     }
 
-    document.querySelectorAll('.fb-comment-form').forEach(function(form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            var input = form.querySelector('input[name="content"]');
-            var content = input ? input.value.trim() : '';
-            if (!content) return;
+    // Attach to existing and dynamically added comment forms
+    document.addEventListener('submit', function(e) {
+        var form = e.target.closest('.fb-comment-form');
+        if (!form) return;
 
-            var submitBtn = form.querySelector('button[type="submit"]');
-            if (submitBtn) submitBtn.disabled = true;
+        e.preventDefault();
+        var input = form.querySelector('input[name="content"]');
+        var content = input ? input.value.trim() : '';
+        if (!content) return;
 
-            fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                headers: { 'X-Requested-With': 'XMLHttpRequest' },
-                credentials: 'same-origin'
-            })
-            .then(function(res) { return res.json(); })
-            .then(function(data) {
-                if (!data.ok || !data.comment) throw new Error('Failed');
-                var c = data.comment;
-                var baseUrl = document.body.getAttribute('data-base-url') || '';
+        var submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.disabled = true;
 
-                var commentNode = buildCommentNode(c, baseUrl);
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            credentials: 'same-origin'
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (!data.ok || !data.comment) throw new Error('Failed');
+            var c = data.comment;
+            var baseUrl = document.body.getAttribute('data-base-url') || '';
 
+            var commentNode = buildCommentNode(c, baseUrl);
+            var parentIdInput = form.querySelector('input[name="parent_id"]');
+            var parentCommentItem = (parentIdInput && parentIdInput.value) ? form.closest('.fb-comment-item') : null;
+
+            if (parentCommentItem) {
+                var repliesList = parentCommentItem.querySelector('.fb-replies-list');
+                if (repliesList) {
+                    repliesList.classList.remove('d-none');
+                    repliesList.appendChild(commentNode);
+                    commentNode.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+                var collapseEl = form.closest('.collapse');
+                if (collapseEl && window.bootstrap && window.bootstrap.Collapse) {
+                    bootstrap.Collapse.getOrCreateInstance(collapseEl).hide();
+                }
+            } else {
                 var postCard = form.closest('.fb-post');
                 var list = postCard ? postCard.querySelector('.fb-comments-list') : null;
                 if (!list) {
@@ -521,28 +546,29 @@
                     list.appendChild(commentNode);
                     commentNode.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
+            }
 
-                var countEl = postCard ? postCard.querySelector('.comment-count') : null;
-                if (countEl) {
-                    var n = (parseInt(countEl.textContent) || 0) + 1;
-                    countEl.textContent = n + ' ' + (n === 1 ? 'comment' : 'comments');
-                }
+            var postCard = form.closest('.fb-post');
+            var countEl = postCard ? postCard.querySelector('.comment-count') : null;
+            if (countEl) {
+                var n = (parseInt(countEl.textContent) || 0) + 1;
+                countEl.textContent = n + ' ' + (n === 1 ? 'comment' : 'comments');
+            }
 
-                // Server may rotate CSRF; copy the new token from the page.
-                var csrfMeta = document.querySelector('meta[name="csrf-token"]');
-                if (csrfMeta) {
-                    var csrfInput = form.querySelector('input[name="csrf"]');
-                    if (csrfInput) csrfInput.value = csrfMeta.getAttribute('content');
-                }
+            // Server may rotate CSRF; copy the new token from the page.
+            var csrfMeta = document.querySelector('meta[name="csrf-token"]');
+            if (csrfMeta) {
+                var csrfInput = form.querySelector('input[name="csrf"]');
+                if (csrfInput) csrfInput.value = csrfMeta.getAttribute('content');
+            }
 
-                if (input) input.value = '';
-            })
-            .catch(function() {
-                form.submit();
-            })
-            .finally(function() {
-                if (submitBtn) submitBtn.disabled = false;
-            });
+            if (input) input.value = '';
+        })
+        .catch(function() {
+            form.submit();
+        })
+        .finally(function() {
+            if (submitBtn) submitBtn.disabled = false;
         });
     });
 

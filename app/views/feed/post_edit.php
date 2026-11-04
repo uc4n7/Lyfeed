@@ -34,6 +34,18 @@
                                accept="image/jpeg,image/png,image/gif,image/webp">
                     </div>
 
+                    <div class="mb-3">
+                        <label for="visibility" class="form-label">Audience</label>
+                        <select name="visibility" id="visibility" class="form-select">
+                            <option value="public" <?= ($post['visibility'] ?? 'public') === 'public' ? 'selected' : '' ?>>
+                                🌍 Public (Anyone can see)
+                            </option>
+                            <option value="private" <?= ($post['visibility'] ?? 'public') === 'private' ? 'selected' : '' ?>>
+                                🔒 Followers only (Private - only your followers can see)
+                            </option>
+                        </select>
+                    </div>
+
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary">Save changes</button>
                         <a href="<?= e(url('feed/index')) ?>#post-<?= (int)$post['id'] ?>" class="btn btn-outline-secondary">Cancel</a>

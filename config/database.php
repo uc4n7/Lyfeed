@@ -1,6 +1,6 @@
 <?php
 /*
- * Database + application configuration.
+ Database + application configuration.
  */
 if (!defined('BASE_PATH')) {
     http_response_code(403);

@@ -26,7 +26,8 @@ class PostController extends Controller
             redirect('feed/index');
         }
 
-        $this->posts->create(current_user_id(), $content, $image);
+        $visibility = in_array($_POST['visibility'] ?? '', ['public', 'private'], true) ? $_POST['visibility'] : 'public';
+        $this->posts->create(current_user_id(), $content, $image, $visibility);
         flash('success', 'Your post was published.');
         redirect('feed/index');
     }
@@ -68,7 +69,8 @@ class PostController extends Controller
             $image = $newImage;
         }
 
-        $this->posts->update((int)$post['id'], current_user_id(), $content, $image);
+        $visibility = in_array($_POST['visibility'] ?? '', ['public', 'private'], true) ? $_POST['visibility'] : 'public';
+        $this->posts->update((int)$post['id'], current_user_id(), $content, $image, $visibility);
         flash('success', 'Post updated.');
         redirect('feed/index');
     }
