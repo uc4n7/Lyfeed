@@ -38,10 +38,10 @@
                         <label for="visibility" class="form-label">Audience</label>
                         <select name="visibility" id="visibility" class="form-select">
                             <option value="public" <?= ($post['visibility'] ?? 'public') === 'public' ? 'selected' : '' ?>>
-                                🌍 Public (Anyone can see)
+                                Public
                             </option>
                             <option value="private" <?= ($post['visibility'] ?? 'public') === 'private' ? 'selected' : '' ?>>
-                                🔒 Followers only (Private - only your followers can see)
+                               Private
                             </option>
                         </select>
                     </div>
